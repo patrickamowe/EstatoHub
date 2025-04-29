@@ -1,0 +1,26 @@
+# === Python/Django (backend) ===
+__pycache__/
+*.py[cod]
+*.db_sqlite3
+venv/
+.env
+*.log
+
+# === React Native / Expo (frontend) ===
+node_modules/
+.expo/
+.expo-shared/
+npm-debug.log
+yarn-error.log
+
+# === Environment files ===
+.env.local
+.env.development
+.env.production
+.env.test
+
+# === IDE / Editor settings ===
+.vscode/
+.idea/
+
+
