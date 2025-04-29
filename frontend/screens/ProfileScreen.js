@@ -4,18 +4,17 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import COLORS from "../constants/colors";
 
-const SectionItem = ({ icon, label, onPress, extraContent }) => (
-  <View style={styles.sectionContainer}>
-    <View style={styles.sectionLeft}>
+const SettingsRow = ({ icon, label, onPress, extraContent }) => (
+  <View style={styles.settingsRow}>
+    <View style={styles.settingsRowLeft}>
       {icon}
-      <Text style={styles.sectionText}>{label}</Text>
-    </View>
-    
-    <View style={styles.sectionRight}>
-    {extraContent}
-    <Ionicons name="chevron-down" size={24} color="black" />
+      <Text style={styles.settingsRowLabel}>{label}</Text>
     </View>
 
+    <View style={styles.settingsRowRight}>
+      {extraContent}
+      <Ionicons name="chevron-down" size={24} color="black" />
+    </View>
   </View>
 );
 
@@ -34,69 +33,69 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1 }}>
-        <View style={styles.container}>
-            <View style={styles.profileContainer}>
-                <View>
-                <Text style={styles.name}>Welcome First Name</Text>
-                <Text style={styles.info}>Email Address</Text>
-                </View>
-                <View>
-                <Image
-                    source={require("../assets/images/user.jpg")}
-                    style={styles.profileImage}
-                />
-                </View>
-            </View>
-            <Text style={styles.sectionTitle}>Activity</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Main",{screen:"Wishlist"})}>
-                <SectionItem
-                    icon={<Ionicons name="heart-outline" size={24} color="black" />}
-                    label="Wishlist"
-                />
-            </TouchableOpacity>
-            <TouchableOpacity >
-                <SectionItem
-                    icon={<MaterialIcons name="view-list" size={24} color="black" />}
-                    label="Recently Viewed"
-                />
-            </TouchableOpacity>
-            <TouchableOpacity >
-                <SectionItem
-                    icon={<Ionicons name="search-outline" size={24} color="black" />}
-                    label="Recently Search"
-                />
-            </TouchableOpacity>
-
-            <Text style={styles.sectionTitle}>Settings</Text>
-            <TouchableOpacity >
-                <SectionItem
-                    icon={<MaterialIcons name="edit" size={24} color="black" />}
-                    label="Edit Profile"
-                />
-            </TouchableOpacity>
-            <TouchableOpacity >
-                <SectionItem
-                    icon={<Ionicons name="moon-outline" size={24} color="black" />}
-                    label="Mode"
-                    extraContent={
-                    <View style={styles.pickerContainer}>
-                        <Picker
-                        selectedValue={selectedTheme}
-                        onValueChange={(itemValue) => setSelectedTheme(itemValue)}
-                        style={styles.picker}
-                        >
-                        <Picker.Item label="Light" value="Light" />
-                        <Picker.Item label="Dark" value="Dark" />
-                        <Picker.Item label="System" value="System" />
-                        </Picker>
-                    </View>
-                    }
-                />
-            </TouchableOpacity>
+      <View style={styles.container}>
+        <View style={styles.profileHeader}>
+          <View>
+            <Text style={styles.profileName}>Welcome First Name</Text>
+            <Text style={styles.profileInfo}>Email Address</Text>
+          </View>
+          <View>
+            <Image
+              source={require("../assets/images/user.jpg")}
+              style={styles.profileImage}
+            />
+          </View>
         </View>
-        <TouchableOpacity style={styles.logoutButton} onPress={logoutHandler}>
-        <Text style={styles.buttonText}>Logout</Text>
+        <Text style={styles.sectionHeader}>Activity</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Main", { screen: "Wishlist" })}>
+          <SettingsRow
+            icon={<Ionicons name="heart-outline" size={24} color="black" />} 
+            label="Wishlist"
+          />
         </TouchableOpacity>
+        <TouchableOpacity>
+          <SettingsRow
+            icon={<MaterialIcons name="view-list" size={24} color="black" />} 
+            label="Recently Viewed"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <SettingsRow
+            icon={<Ionicons name="search-outline" size={24} color="black" />} 
+            label="Recently Search"
+          />
+        </TouchableOpacity>
+
+        <Text style={styles.sectionHeader}>Settings</Text>
+        <TouchableOpacity>
+          <SettingsRow
+            icon={<MaterialIcons name="edit" size={24} color="black" />} 
+            label="Edit Profile"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <SettingsRow
+            icon={<Ionicons name="moon-outline" size={24} color="black" />} 
+            label="Mode"
+            extraContent={
+              <View style={styles.pickerWrapper}>
+                <Picker
+                  selectedValue={selectedTheme}
+                  onValueChange={(itemValue) => setSelectedTheme(itemValue)}
+                  style={styles.themePicker}
+                >
+                  <Picker.Item label="Light" value="Light" />
+                  <Picker.Item label="Dark" value="Dark" />
+                  <Picker.Item label="System" value="System" />
+                </Picker>
+              </View>
+            }
+          />
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity style={styles.logoutButton} onPress={logoutHandler}>
+        <Text style={styles.logoutText}>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -104,11 +103,10 @@ export default function ProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
     padding: 20,
     backgroundColor: COLORS.white,
   },
-  profileContainer: {
+  profileHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
@@ -119,37 +117,36 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
   },
-  name: {
+  profileName: {
     fontSize: 20,
     fontWeight: "bold",
     color: COLORS.black,
   },
-  info: {
+  profileInfo: {
     fontSize: 16,
     color: COLORS.darkGray,
   },
-  sectionContainer: {
+  settingsRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
     paddingVertical: 20,
-
   },
-  sectionLeft: {
+  settingsRowLeft: {
     flexDirection: "row",
     alignItems: "center",
   },
-  sectionRight: {
+  settingsRowRight: {
     flexDirection: "row",
     alignItems: "center",
   },
-  sectionText: {
+  settingsRowLabel: {
     fontSize: 18,
     marginLeft: 10,
     color: COLORS.black,
   },
-  sectionTitle: {
+  sectionHeader: {
     fontSize: 20,
     fontWeight: "bold",
     width: "100%",
@@ -159,23 +156,22 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.lightGray,
     paddingBottom: 5,
   },
-  pickerContainer: {
+  pickerWrapper: {
     width: "100%",
     marginTop: 5,
   },
-  picker: {
+  themePicker: {
     height: 50,
     width: 150,
   },
-  
   logoutButton: {
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     padding: 20,
-    backgroundColor: COLORS.lightGraygray
+    backgroundColor: COLORS.lightGray,
   },
-  buttonText: {
+  logoutText: {
     color: COLORS.danger,
     fontSize: 16,
     fontWeight: "bold",
