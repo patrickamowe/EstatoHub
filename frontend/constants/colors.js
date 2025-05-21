@@ -9,6 +9,7 @@ const COLORS = {
   gray: '#9CA3AF',
   danger: '#EF4444',
   success: '#10B981',
+  darkGray: '#374151',
 };
 
 export default COLORS;

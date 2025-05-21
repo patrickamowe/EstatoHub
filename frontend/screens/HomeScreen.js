@@ -4,10 +4,12 @@ import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 
 import COLORS from "../constants/colors";
 
+
 const categories = [
-  {id: '1', icon: 'home', label: 'Rent a House'},
+  {id: '1', icon: 'home', label: 'Rent/Rent a House'},
   {id: '2', icon: 'car', label: 'Buy a Car'},
-  {id: '3', icon: 'tools', label: 'Services'}
+  {id: '3', icon: 'store', label: 'Buy/Rent a Store'},
+  {id: '4', icon: 'tree', label: 'Buy a Land'},
 ];
 
 const featuredItems = [
@@ -55,6 +57,7 @@ export default function HomeScreen() {
       <FlatList
         data={featuredItems}
         numColumns={2}
+        showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.card}>
