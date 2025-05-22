@@ -10,7 +10,7 @@ class SignupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password', 'password2', 'phone_number']
 
     def validate(self, data):
         if data['password'] != data['password2']:
@@ -34,4 +34,4 @@ class LogoutSerializer(serializers.Serializer):
             token = RefreshToken(self.token)
             token.blacklist()
         except Exception as e:
-            self.fail("bad_token")
+            self.fail(f"{e}: bad_token")

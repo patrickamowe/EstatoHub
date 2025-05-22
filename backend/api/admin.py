@@ -5,7 +5,7 @@ from .models import CustomUser, Listing, Review
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'username', 'email', 'phone_number')
+    list_display = ('id', 'first_name', 'last_name', 'username', 'email', 'phone_number', 'profile_image', 'updated_at')
 
 @admin.register(Listing)
 class ListingAdmin(admin.ModelAdmin):
