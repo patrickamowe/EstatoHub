@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.tokens import RefreshToken
+from .models import Listing, Review
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -35,3 +36,12 @@ class LogoutSerializer(serializers.Serializer):
             token.blacklist()
         except Exception as e:
             self.fail(f"{e}: bad_token")
+
+class ListingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Listing
+        fields = ['price', 'title', 'category', 'location', 'is_available', 'detail', 'user_id' ]
+
+    def create(self, validated_data):
+        listing = Listing.objects.create(**validated_data)
+        return listing
