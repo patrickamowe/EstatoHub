@@ -3,11 +3,14 @@ import {Text, View, Button, StyleSheet, TextInput, TouchableOpacity} from "react
 import { AntDesign } from '@expo/vector-icons';
 
 import COLORS from "../constants/colors";
+import registerUser from "../services/RegisterApi";
 
 export default function SignUpScreen({navigation}) {
     const [email, setEmail] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [userName, setUserName] = useState("");
+    const [phoneNum, setPhoneNum] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -17,9 +20,27 @@ export default function SignUpScreen({navigation}) {
             alert("Passwords do not match!");
             return;
         }
-        console.log("Email:", email);
-        console.log("Password:", password);
-        alert(`First Name: ${firstName}, Last Name: ${lastName} Email: ${email}, Password: ${password}`);
+        const userData = {
+            "first_name":firstName,
+            "last_name": lastName,
+            "username": userName,
+            "email": email,
+            "phone_number": phoneNum,
+            "password": password,
+            "password2": confirmPassword
+        }
+        const response = registerUser(userData);
+        response.then((data) => {
+            if (data.success) {
+                alert(data.message || "Registration successful!");
+                // navigate to login screen is not working
+                navigation.replace("Login");
+            } else {
+                alert(data.message || "Registration failed. Please try again.");
+            }
+        }).catch((error) => {
+            alert("An error occurred: " + error.message);
+        });
     };
 
     return (
@@ -39,9 +60,21 @@ export default function SignUpScreen({navigation}) {
             />
             <TextInput
                 style={styles.input}
+                placeholder="Username"
+                value={userName}
+                onChangeText={setUserName}
+            />
+            <TextInput
+                style={styles.input}
                 placeholder="Email"
                 value={email}
                 onChangeText={setEmail}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Phone Number"
+                value={phoneNum}
+                onChangeText={setPhoneNum}
             />
             <TextInput
                 style={styles.input}
