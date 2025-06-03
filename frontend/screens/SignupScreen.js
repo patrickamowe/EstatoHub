@@ -26,8 +26,7 @@ export default function SignUpScreen({navigation}) {
             "username": userName,
             "email": email,
             "phone_number": phoneNum,
-            "password": password,
-            "password2": confirmPassword
+            "password": password
         }
         const response = registerUser(userData);
         response.then((data) => {

@@ -23,4 +23,6 @@ yarn-error.log
 .vscode/
 .idea/
 
-
+# === Ignore MySQL backup files and folder ===
+db_backups/
+*.sql

@@ -1,4 +1,4 @@
-const registerUser = async (data) => {
+const loginUser = async (data) => {
     // const HOST = '192.168.0.101';
     const HOST = '192.168.0.174';
     const URL = `http://${HOST}:8000/api/token`;
@@ -15,4 +15,4 @@ const registerUser = async (data) => {
    
 };
 
-export default registerUser;
+export default loginUser;
