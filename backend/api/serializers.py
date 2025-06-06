@@ -7,15 +7,23 @@ User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     password= serializers.CharField(write_only=True, validators=[validate_password])
-    password2= serializers.CharField(write_only=True, )
 
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password', 'phone_number']
-        extra_kwargs = {'password': {'write_only': True}}
+
+    def validate_username(self, value):
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError(f"User with that {value} already exists")
+        return value
 
     def create(self, validated_data):
+        password = validated_data['password']
+
+        validated_data.pop('password')
         user = User.objects.create_user(**validated_data)
+        user.set_password(password)
+        user.save()
         return user
 
 class LogoutSerializer(serializers.Serializer):

@@ -3,18 +3,44 @@ import {Text, View, Button, StyleSheet, TextInput, TouchableOpacity, Image} from
 import { AntDesign } from '@expo/vector-icons';
 
 import COLORS from "../constants/colors";
+import LoginAPi from "../services/LoginApi";
+import SecureStorage from "../utils/SecureStorage";
 
 export default function LoginScreen({navigation}) {
-  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    // Here you would call your backend API to login
-    console.log("Logging in with:", { email, password });
+    // Handle login logic here
+    if (!userName || !password) {
+      alert("Please enter both username and password.");
+      return;
+    }
 
-    // If login is successful, navigate to the main app
-    // navigation.replace("home");
-    navigation.replace("Main", { screen: "Home" }); // Navigate to MainTabs if logged in
+    const userData = {
+      "username": userName,
+      "password": password
+    };
+
+    // Calling login API
+    LoginAPi(userData)
+      .then(data => {
+        const accessToken = data.access;
+        const refreshToken = data.refresh;
+        if (accessToken && refreshToken) {
+          // Store tokens securely
+          SecureStorage.setItem("accessToken", accessToken);
+          SecureStorage.setItem("refreshToken", refreshToken);
+          
+          alert("Login successful!");
+          navigation.replace("Main", { screen: "Home" }); // Navigate to Home screen after successful login
+        } else {
+          alert("Login failed. Please check your credentials.");
+        }
+      })
+      .catch( error => {
+        alert("An error occurred: " + error.message);
+      });
   };
 
   return (
@@ -22,9 +48,9 @@ export default function LoginScreen({navigation}) {
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
+        placeholder="Username"
+        value={userName}
+        onChangeText={setUserName}
       />
       <TextInput
         style={styles.input}

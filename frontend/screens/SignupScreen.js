@@ -16,10 +16,16 @@ export default function SignUpScreen({navigation}) {
 
     const handleSignUp = () => {
         // Handle signup logic here
+        if (!email || !firstName || !lastName || !userName || !phoneNum || !password) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
             return;
         }
+
         const userData = {
             "first_name":firstName,
             "last_name": lastName,
@@ -28,18 +34,21 @@ export default function SignUpScreen({navigation}) {
             "phone_number": phoneNum,
             "password": password
         }
-        const response = registerUser(userData);
-        response.then((data) => {
-            if (data.success) {
-                alert(data.message || "Registration successful!");
-                // navigate to login screen is not working
-                navigation.replace("Login");
-            } else {
-                alert(data.message || "Registration failed. Please try again.");
-            }
-        }).catch((error) => {
-            alert("An error occurred: " + error.message);
-        });
+
+        // Calling register API
+        registerUser(userData)
+            .then((data) => {
+                console.log(data);
+                if (data.success) {
+                    alert(data.message || "Registration successful!");
+                    // navigate to login screen is not working
+                    navigation.replace("Login");
+                } else {
+                    alert(data.error || "Registration failed. Please try again.");
+                }
+            }).catch((error) => {
+                alert("An error occurred: " + error.message);
+            });
     };
 
     return (

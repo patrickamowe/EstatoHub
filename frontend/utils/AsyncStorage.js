@@ -19,7 +19,7 @@ const storage = {
     }
    },
 
-   async removeItem(key) {
+   async deleteItem(key) {
     try {
         await AsyncStorage.removeItem(key);
     } catch (error) {
