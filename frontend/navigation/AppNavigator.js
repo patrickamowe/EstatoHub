@@ -13,6 +13,7 @@ import CategoriesScreen from '../screens/CategoriesScreen';
 import ChatScreen from '../screens/ChatScreen';
 import WishlistScreen from '../screens/WishlistScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ListingScreen from '../screens/ListingScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -62,6 +63,7 @@ export default function AppNavigator() {
       <Stack.Screen name="Details" component={DetailScreen} options={{headerShown: false}} />
       <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}} />
       <Stack.Screen name="Signup" component={SignUpScreen} options={{headerShown: false}} />
+      <Stack.Screen name="Listing" component={ListingScreen} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 }

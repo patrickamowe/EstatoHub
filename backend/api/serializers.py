@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import Item, Review
+from .models import Item, Review, Wishlist, WishlistItem
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -43,8 +43,26 @@ class LogoutSerializer(serializers.Serializer):
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ['price', 'title', 'category', 'location', 'is_available', 'detail', 'user_id' ]
+        fields = ['price', 'title', 'category', 'location', 'is_available', 'detail', 'user' ]
 
     def create(self, validated_data):
         item = Item.objects.create(**validated_data)
         return item
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class meta:
+        model = Review
+        fields = ['item', 'user', 'rating', 'comment']
+
+    def create(self, validated_data):
+        review = Review.objects.create(**validated_data)
+        return review
+
+class WishlistItemSerializer(serializers.ModelSerializer):
+    class Mete:
+        model = WishlistItem
+        fields = ['wishlist', 'item']
+
+    def create(self, validated_data):
+        wishlist_item = WishlistItem.objects.create(**validated_data)
+        return wishlist_item

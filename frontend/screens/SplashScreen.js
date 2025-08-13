@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
-import storage from "../utils/storage"; 
+import storage from "../utils/AsyncStorage"; 
 
 
 export default function SplashScreen({navigation}) {

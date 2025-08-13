@@ -49,6 +49,12 @@ export default function ProfileScreen({ navigation }) {
           </View>
         </View>
         <Text style={styles.sectionHeader}>Activity</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Listing")}>
+          <ProfileRow
+            icon={<MaterialIcons name="add-circle-outline" size={24} color="black" />} 
+            label="Add Item"
+          />
+        </TouchableOpacity>
         <TouchableOpacity>
           <ProfileRow
             icon={<MaterialIcons name="view-list" size={24} color="black" />} 

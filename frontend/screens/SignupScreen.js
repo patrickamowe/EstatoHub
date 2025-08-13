@@ -1,9 +1,9 @@
 import React, {useState} from "react";
-import {Text, View, Button, StyleSheet, TextInput, TouchableOpacity} from "react-native";
+import {Text, View, StyleSheet, TextInput, TouchableOpacity} from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 
 import COLORS from "../constants/colors";
-import registerUser from "../services/RegisterApi";
+import RegisterApi from "../services/RegisterApi";
 
 export default function SignUpScreen({navigation}) {
     const [email, setEmail] = useState("");
@@ -36,9 +36,9 @@ export default function SignUpScreen({navigation}) {
         }
 
         // Calling register API
-        registerUser(userData)
+        
+        RegisterApi(userData)
             .then((data) => {
-                console.log(data);
                 if (data.success) {
                     alert(data.message || "Registration successful!");
                     // navigate to login screen is not working
@@ -47,7 +47,7 @@ export default function SignUpScreen({navigation}) {
                     alert(data.error || "Registration failed. Please try again.");
                 }
             }).catch((error) => {
-                alert("An error occurred: " + error.message);
+                alert("An error occurred: " + error);
             });
     };
 

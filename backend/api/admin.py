@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Item, Review
+from .models import CustomUser, Item, Review, Wishlist, WishlistItem
 
 # Register your models here.
 
@@ -9,8 +9,18 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'price', 'category', 'is_available', 'location', 'user_id')
+    list_display = ('id', 'title', 'price', 'category', 'is_available', 'location', 'user')
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user_id', 'item_id', 'rating')
+    list_display = ('id', 'user', 'item', 'rating')
+
+@admin.register(Wishlist)
+class WishlistAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user')
+
+@admin.register(WishlistItem)
+class WishlistItemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'wishlist', 'item')
+    
+    

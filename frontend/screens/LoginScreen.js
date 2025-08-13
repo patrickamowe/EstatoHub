@@ -39,7 +39,7 @@ export default function LoginScreen({navigation}) {
         }
       })
       .catch( error => {
-        alert("An error occurred: " + error.message);
+        alert("An error occurred: " + error);
       });
   };
 
