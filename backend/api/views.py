@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from pymysql import IntegrityError
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,6 +16,7 @@ class UserView(APIView):
             if serializer.is_valid():
                 serializer.save()
                 return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
+            return Response({"error": "User with that username already exits"}, status=status.HTTP_400_BAD_REQUEST)
         except IntegrityError as e:
             return Response({"error": "Invalid data: " + str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
@@ -33,8 +35,8 @@ class LogoutView(APIView):
 
 
 class ItemView(APIView):
-    permission_classes = [IsAuthenticated]
 
+    @permission_classes([IsAuthenticated])
     def post(self, request):
         try:
             user = request.user
@@ -43,6 +45,7 @@ class ItemView(APIView):
             if serializer.is_valid():
                 serializer.save()
                 return Response({"message": "Item listed successfully"}, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except IntegrityError as e:
             return Response({"error": "Invalid data: " + str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
@@ -71,6 +74,7 @@ class ItemDetailView(APIView):
         except Exception as e:
             return Response({"error": "Server error: " + str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+    @permission_classes([IsAuthenticated])
     def put(self, request, pk):
         try:
             item = get_object_or_404(Item, pk=pk)
@@ -83,7 +87,8 @@ class ItemDetailView(APIView):
             return Response({"error": "Invalid data: " + str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": "Server error: " + str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
+    @permission_classes([IsAuthenticated])    
     def delete(self, pk):
         try:
             item = get_object_or_404(Item, pk=pk)
@@ -94,7 +99,9 @@ class ItemDetailView(APIView):
         except Exception as e:
             return Response({"error": "Server error: " + str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-class WishListView(APIView):
+class WishListItemView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         try:
             user = request.user
@@ -104,7 +111,7 @@ class WishListView(APIView):
             if serializer.is_valid():
                 serializer.save(wishlist=wishlist)
                 return Response({"message": "Item added to wishlist"}, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Item already in wishlist"}, status=status.HTTP_400_BAD_REQUEST)
         except IntegrityError as e:
             return Response({"error": "Invalid data: " + str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
@@ -125,6 +132,8 @@ class WishListView(APIView):
             return Response({"error": "Server error: " + str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class ReviewView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         try:
             user = request.user
@@ -133,7 +142,7 @@ class ReviewView(APIView):
             if serializer.is_valid():
                 serializer.save()
                 return Response({"message": "Review added successfully"}, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "User already rate the item"}, status=status.HTTP_400_BAD_REQUEST)
         except IntegrityError as e:
             return Response({"error": "Invalid data: " + str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
@@ -153,6 +162,21 @@ class ReviewView(APIView):
             return Response({"error": "Server error: " + str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
     
+    
+class ReviewDetailView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, review_id):
+        try:
+            review = get_object_or_404(Review, pk=review_id)
+            data = ReviewSerializer(review).data
+            return Response(data, status=status.HTTP_200_OK)
+        except IntegrityError as e:
+            return Response({"error": "Invalid id: " + str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": "Server error: " + str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
     def put(self, request, review_id):
         try:
             review = get_object_or_404(Review, pk=review_id)
@@ -165,3 +189,5 @@ class ReviewView(APIView):
             return Response({"error": "Invalid data: " + str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": "Server error: " + str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+

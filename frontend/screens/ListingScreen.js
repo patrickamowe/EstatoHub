@@ -6,7 +6,7 @@ import RNPickerSelect from "react-native-picker-select";
 
 import COLORS from "../constants/colors";
 import {PickImage, PickVideo} from "../utils/MediaPicker";
-import ListingApi from "../services/ListingApi";
+import {listingApi} from "../services/ApiClient";
 
 export default function ListingScreen() {
     const navigation = useNavigation();
@@ -37,7 +37,7 @@ export default function ListingScreen() {
         };
 
         // Calling the Listing API to upload the listing
-        ListingApi(listingData)
+        listingApi(listingData)
             .then(data => {
                 if (data.success) {
                     alert(data.message || "Listing uploaded successfully");

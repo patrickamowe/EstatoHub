@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, TextInput, TouchableOpacity} from "react-native"
 import { AntDesign } from '@expo/vector-icons';
 
 import COLORS from "../constants/colors";
-import RegisterApi from "../services/RegisterApi";
+import {registerApi} from "../services/AuthService";
 
 export default function SignUpScreen({navigation}) {
     const [email, setEmail] = useState("");
@@ -37,7 +37,7 @@ export default function SignUpScreen({navigation}) {
 
         // Calling register API
         
-        RegisterApi(userData)
+        registerApi(userData)
             .then((data) => {
                 if (data.success) {
                     alert(data.message || "Registration successful!");

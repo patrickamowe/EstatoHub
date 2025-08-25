@@ -50,7 +50,7 @@ class ItemSerializer(serializers.ModelSerializer):
         return item
 
 class ReviewSerializer(serializers.ModelSerializer):
-    class meta:
+    class Meta:
         model = Review
         fields = ['item', 'user', 'rating', 'comment']
 
@@ -59,10 +59,10 @@ class ReviewSerializer(serializers.ModelSerializer):
         return review
 
 class WishlistItemSerializer(serializers.ModelSerializer):
-    class Mete:
+    class Meta:
         model = WishlistItem
         fields = ['wishlist', 'item']
-
+    
     def create(self, validated_data):
         wishlist_item = WishlistItem.objects.create(**validated_data)
         return wishlist_item

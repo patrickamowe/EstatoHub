@@ -13,7 +13,7 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'item', 'rating')
+    list_display = ('id', 'user', 'item','comment', 'rating')
 
 @admin.register(Wishlist)
 class WishlistAdmin(admin.ModelAdmin):

@@ -3,7 +3,7 @@ import {Text, View, Button, StyleSheet, TextInput, TouchableOpacity, Image} from
 import { AntDesign } from '@expo/vector-icons';
 
 import COLORS from "../constants/colors";
-import LoginAPi from "../services/LoginApi";
+import {loginAPi} from "../services/AuthService";
 import SecureStorage from "../utils/SecureStorage";
 
 export default function LoginScreen({navigation}) {
@@ -23,7 +23,7 @@ export default function LoginScreen({navigation}) {
     };
 
     // Calling login API
-    LoginAPi(userData)
+    loginAPi(userData)
       .then(data => {
         const accessToken = data.access;
         const refreshToken = data.refresh;
